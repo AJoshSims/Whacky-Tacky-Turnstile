@@ -1,0 +1,38 @@
+<!-- Should be executed in the Google Chrome web browser -->
+
+<!DOCTYPE html>
+<html>
+	<head>
+        <title>Whacky Tacky Turnstile</title>
+        <meta name="author" content="Joshua Sims">
+        <meta name="description"
+            content="Displays an interactive wall and turnstile. The possible
+            interactions are as follows. Pressing ‘q’: the turnstile doors
+            rotate a small angle around the pole and the walls remain
+            stationary (can be done repeatedly). Pressing ‘p’: the walls
+            rotate a small angle around the turnstile and the turnstile doors
+            remain stationary (can be done repeatedly). Pressing ‘r’: all
+            objects (except for the camera) are returned to their initial
+            state. Pressing ‘0’: the camera is positioned at its initial
+            position in the upper right corner closest to the viewer. Pressing
+            ‘1’: moves the camera to the upper right corner farthest from the
+            viewer. Pressing ‘2’: the camera is positioned at the vertical and
+            horizontal center of the scene and directed at the front of the
+            wall..">
+		<meta name="viewport" content="width=1024, height=768, initial-scale=1">
+		<style>
+			body
+            {
+				background-color: #ffffff;
+				overflow: hidden;
+				margin: 0px 0px 0px 0px;
+			}
+		</style>
+		<script src="three.min.js"></script>
+	</head>
+	<body>
+	<div id="WebGLCanvas">
+		<script src="wall.js"></script>
+	</div>
+	</body>
+</html>
