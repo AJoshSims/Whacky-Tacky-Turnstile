@@ -57,7 +57,7 @@ var camera;
  */
 var renderer;
 
-var mesh;
+var turnstile;
 
 init();
 
@@ -122,14 +122,38 @@ function buildGround()
 
 function buildTurnstile()
 {
-	var geometry = new THREE.CylinderGeometry(5, 5, 170);
-	var material = new THREE.MeshBasicMaterial( {color: 0x000000} );
-	var cylinder = new THREE.Mesh( geometry, material );
-	cylinder.position.x = 0;
-	cylinder.position.y = 85;
-	cylinder.position.z = 0;
-	scene.add( cylinder );
+	turnstile = new THREE.Object3D();
+	var turnstilePole = buildTurnstilePole();
+	var turnstileDoor01 = buildTurnstileDoor();
+	var turnstileDoor02 = buildTurnstileDoor();
+	turnstileDoor02.rotation.y = Math.PI / 2;
 
+	turnstile.add(turnstilePole, turnstileDoor01, turnstileDoor02);
+
+	turnstileDoor01.position.set(0, 10, 0);
+	turnstileDoor02.position.set(0, 10, 0);
+
+	return turnstile;
+}
+
+function buildTurnstilePole()
+{
+	var turnstilePoleGeometry =
+		new THREE.CylinderGeometry(5, 5, 180);
+	var turnstilePoleMaterial =
+		new THREE.MeshBasicMaterial( {color: 0x000000} );
+	var turnstilePoleMesh =
+		new THREE.Mesh( turnstilePoleGeometry, turnstilePoleMaterial );
+
+	turnstilePoleMesh.position.x = 0;
+	turnstilePoleMesh.position.y = 90;
+	turnstilePoleMesh.position.z = 0;
+
+	return turnstilePoleMesh;
+}
+
+function buildTurnstileDoor()
+{
 	var turnstileDoorGeometry = new THREE.Geometry();
 	turnstileDoorGeometry.vertices.push(
 		new THREE.Vector3(40, 160, 5),
@@ -163,15 +187,6 @@ function buildTurnstile()
 	var turnstileDoorMesh = new THREE.Mesh(
 		turnstileDoorGeometry, turnstileDoorMaterial);
 
-	turnstileDoorMesh.position.x = 0;
-	turnstileDoorMesh.position.y = 0;
-	turnstileDoorMesh.position.z = 0;
-
-
-	var thingynew = turnstileDoorMesh.clone();
-	thingynew.rotation.y = Math.PI / 2;
-	scene.add(thingynew);
-
 	return turnstileDoorMesh;
 }
 
@@ -197,6 +212,8 @@ function renderScene()
 
 function onDocumentKeyDown(event)
 {
+	turnstile.rotation.y += 5;
 
+	renderScene();
 }
 
