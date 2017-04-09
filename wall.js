@@ -212,7 +212,12 @@ function renderScene()
 
 function onDocumentKeyDown(event)
 {
-	turnstile.rotation.y += 5;
+	switch (event.keyCode)
+	{
+		case 81:
+			turnstile.rotation.y += Math.PI / 20;
+			break;
+	}
 
 	renderScene();
 }
