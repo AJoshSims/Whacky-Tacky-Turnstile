@@ -1,155 +1,73 @@
-// /**
-//  * Displays an interactive wall and turnstile.
-//  *
-//  * <p> The possible interactions are as follows.
-//  * Pressing ‘q’: the turnstile doors rotate a small angle around the pole and
-//  * the walls remain stationary (can be done repeatedly).
-//  * Pressing ‘p’: the walls rotate a small angle around the turnstile and the
-//  * turnstile doors remain stationary (can be done repeatedly).
-//  * Pressing ‘r’: all objects (except for the camera) are returned to their
-//  * initial state.
-//  * Pressing ‘0’: the camera is positioned at its initial position in the
-//  * upper right corner closest to the viewer.
-//  * Pressing ‘1’: moves the camera to the upper right corner farthest from the
-//  * viewer.
-//  * Pressing ‘2’: the camera is positioned at the vertical and horizontal
-//  * center of the scene and directed at the front of the wall.
-//  *
-//  * <p>Should be executed in the Google Chrome web browser.
-//  *
-//  * @author Joshua Sims
-//  *
-//  * @version 2017-04-08
-//  */
-//
-// /**
-//  * The width of the canvas.
-//  */
-// var canvasWidth;
-//
-// /**
-//  * The height of the canvas.
-//  */
-// var canvasHeight;
-//
-// /**
-//  * The scene in which the turnstile and wall appear.
-//  */
-// var scene;
-//
-// /**
-//  * The view length of the camera.
-//  */
-// var viewLength;
-//
-// /**
-//  * The aspect ratio.
-//  */
-// var aspRat;
-//
-// /**
-//  * The camera that is directed at the turnstile and wall.
-//  */
-// var camera;
-//
-// /**
-//  * Renders the scene.
-//  */
-// var renderer;
-//
-// init();
-//
-// draw();
-//
-// renderScene();
-//
-// function init()
-// {
-// 	// Establishes canvas dimensions.
-// 	canvasWidth = window.innerWidth;
-// 	canvasHeight = window.innerHeight;
-//
-// 	// Creates scene.
-// 	scene = new THREE.Scene();
-//
-// 	// Sets up camera.
-// 	viewLength = 500;
-// 	aspRat = canvasWidth/canvasHeight;
-// 	camera = new THREE.OrthographicCamera(
-// 		-aspRat*viewLength/2,
-// 		aspRat*viewLength/2,
-// 		viewLength/2,
-// 		-viewLength/2,
-// 		-1000, 1000);
-// 	// camera.position.z = 100;
-// 	// camera.up = new THREE.Vector3(0, 1, 0);
-// 	// camera.lookAt(new THREE.Vector3(0, 0, 0));
-//
-// 	// Sets up renderer.
-// 	renderer = new THREE.WebGLRenderer({alpha: true});
-// 	renderer.setSize(window.innerWidth, window.innerHeight);
-// 	document.body.appendChild(renderer.domElement);
-//
-// 	// Sets up event listener for onkeydown.
-// 	document.addEventListener("keydown", doThing);
-// }
-//
-// function draw()
-// {
-// 	scene.add(buildGround());
-//
-// 	buildWall();
-// }
-//
-// function buildGround()
-// {
-// 	var geometry = new THREE.PlaneGeometry(600, 1, 600);
-// 	var material = new THREE.MeshBasicMaterial( {color: 0x00ff00, side: THREE.DoubleSide} );
-// 	var plane = new THREE.Mesh( geometry, material );
-// 	// plane.position.set(0, 0, 0);
-// 	return plane;
-// }
-//
-// function buildTurnStile()
-// {
-//
-// }
-//
-// function buildWall(side)
-// {
-//
-// }
-//
-// function buildFirstCube()
-// {
-//
-// }
-//
-// function initGeom()
-// {
-//
-// }
-//
-// function renderScene()
-// {
-// 	renderer.render(scene, camera);
-// }
-//
-// function doThing()
-// {
-//
-// }
-//
+/**
+ * Displays an interactive wall and turnstile.
+ *
+ * <p> The possible interactions are as follows.
+ * Pressing ‘q’: the turnstile doors rotate a small angle around the pole and
+ * the walls remain stationary (can be done repeatedly).
+ * Pressing ‘p’: the walls rotate a small angle around the turnstile and the
+ * turnstile doors remain stationary (can be done repeatedly).
+ * Pressing ‘r’: all objects (except for the camera) are returned to their
+ * initial state.
+ * Pressing ‘0’: the camera is positioned at its initial position in the
+ * upper right corner closest to the viewer.
+ * Pressing ‘1’: moves the camera to the upper right corner farthest from the
+ * viewer.
+ * Pressing ‘2’: the camera is positioned at the vertical and horizontal
+ * center of the scene and directed at the front of the wall.
+ *
+ * <p>Should be executed in the Google Chrome web browser.
+ *
+ * @author Joshua Sims
+ *
+ * @version 2017-04-08
+ */
 
-var camera, scene, renderer;
-var geometry, material, mesh;
-var aspRat, canvasWidth, canvasHeight, viewLength;
+/**
+ * The width of the canvas.
+ */
+var canvasWidth;
+
+/**
+ * The height of the canvas.
+ */
+var canvasHeight;
+
+/**
+ * The scene in which the turnstile and wall appear.
+ */
+var scene;
+
+/**
+ * The view length of the camera.
+ */
+var viewLength;
+
+/**
+ * The aspect ratio.
+ */
+var aspRat;
+
+/**
+ * The camera that is directed at the turnstile and wall.
+ */
+var camera;
+
+/**
+ * Renders the scene.
+ */
+var renderer;
+
+var mesh;
 
 init();
-animate();
 
-function init() {
+draw();
 
+renderScene();
+
+function init()
+{
+	// Defines canvas dimensions.
 	canvasWidth = window.innerWidth;
 	canvasHeight = window.innerHeight;
 
@@ -167,40 +85,118 @@ function init() {
 	camera.position.z += 1;
 	camera.lookAt(new THREE.Vector3(0, 0, 0));
 
+	// Creates the scene.
 	scene = new THREE.Scene();
 
-	geometry = new THREE.BoxGeometry(40, 40, 40);
-	for ( var i = 0; i < geometry.faces.length; i ++ ) {
-		if ((i % 3) == 1)
-		{
-			geometry.faces[ i ].color.setHex(0xff0000);
-		}
-		else if ((i % 3) == 2)
-		{
-			geometry.faces[ i ].color.setHex(0x00ff00);
-		}
-		else
-		{
-			geometry.faces[ i ].color.setHex(0x0000ff);
-		}
-	}
-
-	material = new THREE.MeshBasicMaterial( { color: 0xffffff, vertexColors: THREE.FaceColors } );
-
-	mesh = new THREE.Mesh(geometry, material);
-	scene.add(mesh);
-
-	renderer = new THREE.WebGLRenderer();
+	// Sets up renderer.
+	renderer = new THREE.WebGLRenderer({alpha: true});
 	renderer.setSize(window.innerWidth, window.innerHeight);
-
 	document.body.appendChild(renderer.domElement);
 
+	// Sets up event listener for keydown.
+	document.addEventListener("keydown", onDocumentKeyDown);
 }
 
-function animate() {
+function draw()
+{
+	scene.add(buildGround());
+
+	scene.add(buildTurnstile());
+
+	buildWall();
+}
+
+function buildGround()
+{
+	var groundGeometry = new THREE.PlaneGeometry(600, 600);
+
+	var groundMaterial =
+		new THREE.MeshBasicMaterial(
+		{color: 0x00ff00, side: THREE.DoubleSide});
+
+	var groundMesh = new THREE.Mesh(groundGeometry, groundMaterial );
+
+	groundMesh.rotation.x = Math.PI / 2;
+	return groundMesh;
+}
+
+function buildTurnstile()
+{
+	var geometry = new THREE.CylinderGeometry(5, 5, 170);
+	var material = new THREE.MeshBasicMaterial( {color: 0x000000} );
+	var cylinder = new THREE.Mesh( geometry, material );
+	cylinder.position.x = 0;
+	cylinder.position.y = 85;
+	cylinder.position.z = 0;
+	scene.add( cylinder );
+
+	var turnstileDoorGeometry = new THREE.Geometry();
+	turnstileDoorGeometry.vertices.push(
+		new THREE.Vector3(40, 160, 5),
+		new THREE.Vector3(40, 0, 5),
+		new THREE.Vector3(-40, 0, 5),
+		new THREE.Vector3(-40, 160, 5),
+
+		new THREE.Vector3(40, 160, -5),
+		new THREE.Vector3(40, 0, -5),
+		new THREE.Vector3(-40, 0, -5),
+		new THREE.Vector3(-40, 160, -5));
+
+	turnstileDoorGeometry.faces.push(
+		new THREE.Face3(0, 1, 2),
+		new THREE.Face3(2, 3, 0),
+		new THREE.Face3(4, 5, 6),
+		new THREE.Face3(6, 7, 4),
+		new THREE.Face3(0, 1, 5),
+		new THREE.Face3(5, 4, 0),
+		new THREE.Face3(5, 1, 2),
+		new THREE.Face3(6, 5, 1),
+		new THREE.Face3(7, 6, 2),
+		new THREE.Face3(2, 3, 7),
+		new THREE.Face3(0, 4, 7),
+		new THREE.Face3(7, 3, 0));
+
+	var turnstileDoorMaterial = new THREE.MeshBasicMaterial({
+		color: 0xcccccc,
+		side: THREE.DoubleSide});
+
+	var turnstileDoorMesh = new THREE.Mesh(
+		turnstileDoorGeometry, turnstileDoorMaterial);
+
+	turnstileDoorMesh.position.x = 0;
+	turnstileDoorMesh.position.y = 0;
+	turnstileDoorMesh.position.z = 0;
 
 
+	var thingynew = turnstileDoorMesh.clone();
+	thingynew.rotation.y = Math.PI / 2;
+	scene.add(thingynew);
 
+	return turnstileDoorMesh;
+}
+
+function buildWall(side)
+{
+
+}
+
+function buildFirstCube()
+{
+
+}
+
+function initGeom()
+{
+
+}
+
+function renderScene()
+{
 	renderer.render(scene, camera);
+}
+
+function onDocumentKeyDown(event)
+{
 
 }
+
