@@ -169,7 +169,7 @@ function init() {
 
 	scene = new THREE.Scene();
 
-	geometry = new THREE.BoxGeometry(200, 200, 200);
+	geometry = new THREE.BoxGeometry(40, 40, 40);
 	for ( var i = 0; i < geometry.faces.length; i ++ ) {
 		if ((i % 3) == 1)
 		{
