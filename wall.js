@@ -204,17 +204,29 @@ function buildTurnstileDoor()
 function buildWall(side)
 {
 	var newCube;
+	var posY;
 	if (side === "west")
 	{
-		// for (var i = 0; i < 4; ++i)
-		// {
+		posY = turnstile.position.y - 80;
+		for (var i = 0; i < 4; ++i)
+		{
+			posY += 40 * i;
 			for (var j = 0; j < 5; ++j)
 			{
 				newCube = firstCube.clone();
+
+				if (j % 2 == 0)
+				{
+					newCube.rotation.y = Math.PI / 2;
+					newCube.rotation.x = Math.PI / 2;
+				}
+
 				newCube.position.x = 60 + 40*j;
+				newCube.position.y = posY;
+
 				scene.add(newCube);
 			}
-		// }
+		}
 	}
 }
 

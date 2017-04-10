@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bdcde10f-e1b0-473a-88c4-ebc4c959be7b" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wall.js" afterPath="$PROJECT_DIR$/wall.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -56,11 +55,11 @@
       <file leaf-file-name="wall.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/wall.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="511">
-              <caret line="206" column="22" lean-forward="false" selection-start-line="206" selection-start-column="22" selection-end-line="206" selection-end-column="22" />
+            <state relative-caret-position="607">
+              <caret line="221" column="17" lean-forward="false" selection-start-line="221" selection-start-column="17" selection-end-line="221" selection-end-column="17" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
-                <marker date="1491832800561" expanded="true" signature="2374:2375" ph="..." />
+                <marker date="1491833499764" expanded="true" signature="2374:2375" ph="..." />
               </folding>
             </state>
           </provider>
@@ -236,15 +235,15 @@
       <option name="presentableId" value="Default" />
       <updated>1491654857654</updated>
       <workItem from="1491654859185" duration="1132000" />
-      <workItem from="1491682163140" duration="41919000" />
+      <workItem from="1491682163140" duration="42319000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="43051000" />
+    <option name="totallyTimeSpent" value="43451000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-16" y="-16" width="3232" height="1732" extended-state="6" />
+    <frame x="-16" y="-16" width="3232" height="1732" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5090556" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -312,11 +311,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/wall.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="511">
-          <caret line="206" column="22" lean-forward="false" selection-start-line="206" selection-start-column="22" selection-end-line="206" selection-end-column="22" />
+        <state relative-caret-position="607">
+          <caret line="221" column="17" lean-forward="false" selection-start-line="221" selection-start-column="17" selection-end-line="221" selection-end-column="17" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
-            <marker date="1491832800561" expanded="true" signature="2374:2375" ph="..." />
+            <marker date="1491833499764" expanded="true" signature="2374:2375" ph="..." />
           </folding>
         </state>
       </provider>
