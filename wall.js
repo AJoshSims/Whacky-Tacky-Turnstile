@@ -59,7 +59,9 @@ var renderer;
 
 var turnstile;
 
-var firstCubeMesh;
+var wall;
+
+var firstCube;
 
 var firstCubeVertices;
 
@@ -111,7 +113,7 @@ function draw()
 
 	buildFirstCube();
 
-	buildWall();
+	buildWall("west");
 }
 
 function buildGround()
@@ -201,10 +203,19 @@ function buildTurnstileDoor()
 
 function buildWall(side)
 {
-	// if (side.equals("west"))
-	// {
-	//
-	// }
+	var newCube;
+	if (side === "west")
+	{
+		// for (var i = 0; i < 4; ++i)
+		// {
+			for (var j = 0; j < 5; ++j)
+			{
+				newCube = firstCube.clone();
+				newCube.position.x = 60 + 40*j;
+				scene.add(newCube);
+			}
+		// }
+	}
 }
 
 function buildFirstCube()
@@ -219,11 +230,7 @@ function buildFirstCube()
 	var firstCubeMaterial = new THREE.MeshBasicMaterial({
 		side: THREE.DoubleSide, vertexColors: THREE.FaceColors});
 
-	firstCubeMesh = new THREE.Mesh(firstCubeGeometry, firstCubeMaterial);
-
-	firstCubeMesh.position.x = turnstile.position.x + 60;
-
-	scene.add(firstCubeMesh);
+	firstCube = new THREE.Mesh(firstCubeGeometry, firstCubeMaterial);
 }
 
 function initGeom()
