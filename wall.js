@@ -118,6 +118,8 @@ function draw()
 
 	buildWall("west");
 	buildWall("east");
+
+	scene.add(wall);
 }
 
 function buildGround()
@@ -233,7 +235,7 @@ function buildWall(side)
 				// newCube.rotation.x = Math.PI / 2;
 			}
 
-			scene.add(newCube);
+			wall.add(newCube);
 		}
 	}
 }
@@ -317,11 +319,62 @@ function renderScene()
 
 function onDocumentKeyDown(event)
 {
-	var q = 81;
+	var keyP = 80;
+	var keyQ = 81;
+	var keyR = 82;
+	var keyZero = 48;
+	var keyOne = 49;
+	var keyTwo = 50;
 	switch (event.keyCode)
 	{
-		case q:
+		case keyP:
+			wall.rotation.y += Math.PI / 20;
+			break;
+		case keyQ:
 			turnstile.rotation.y += Math.PI / 20;
+			break;
+		case keyR:
+			wall.rotation.y = 0;
+			turnstile.rotation.y = 0;
+			break;
+		case keyZero:
+			camera = new THREE.OrthographicCamera(
+				-aspRat*viewLength/2,
+				aspRat*viewLength/2,
+				viewLength/2,
+				-viewLength/2,
+				-1000, 1000);
+
+			camera.position.x += 1;
+			camera.position.y += 1;
+			camera.position.z += 1;
+			camera.lookAt(new THREE.Vector3(0, 0, 0));
+			break;
+		case keyOne:
+			camera = new THREE.OrthographicCamera(
+				-aspRat*viewLength/2,
+				aspRat*viewLength/2,
+				viewLength/2,
+				-viewLength/2,
+				-1000, 1000);
+
+			camera.position.x += 1;
+			camera.position.y += 1;
+			camera.position.z += -1;
+			camera.lookAt(new THREE.Vector3(0, 0, 0));
+			break;
+		case keyTwo:
+			camera = new THREE.OrthographicCamera(
+				-aspRat*viewLength/2,
+				aspRat*viewLength/2,
+				viewLength/2,
+				-viewLength/2,
+				-1000, 1000);
+
+			camera.position.x += 0;
+			camera.position.y += 0;
+			camera.position.z += 1;
+			camera.lookAt(new THREE.Vector3(0, 0, 0));
 			break;
 	}
 

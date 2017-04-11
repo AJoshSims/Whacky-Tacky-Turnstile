@@ -55,11 +55,11 @@
       <file leaf-file-name="wall.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/wall.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="816">
-              <caret line="138" column="1" lean-forward="true" selection-start-line="138" selection-start-column="1" selection-end-line="138" selection-end-column="1" />
+            <state relative-caret-position="865">
+              <caret line="375" column="33" lean-forward="false" selection-start-line="375" selection-start-column="33" selection-end-line="375" selection-end-column="33" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
-                <marker date="1491870338853" expanded="true" signature="2460:2461" ph="..." />
+                <marker date="1491878963750" expanded="true" signature="2479:2480" ph="..." />
               </folding>
             </state>
           </provider>
@@ -235,12 +235,12 @@
       <option name="presentableId" value="Default" />
       <updated>1491654857654</updated>
       <workItem from="1491654859185" duration="1132000" />
-      <workItem from="1491682163140" duration="43978000" />
+      <workItem from="1491682163140" duration="48285000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="45110000" />
+    <option name="totallyTimeSpent" value="49417000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-16" y="-16" width="3232" height="1732" extended-state="6" />
@@ -311,11 +311,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/wall.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="816">
-          <caret line="138" column="1" lean-forward="true" selection-start-line="138" selection-start-column="1" selection-end-line="138" selection-end-column="1" />
+        <state relative-caret-position="865">
+          <caret line="375" column="33" lean-forward="false" selection-start-line="375" selection-start-column="33" selection-end-line="375" selection-end-column="33" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
-            <marker date="1491870338853" expanded="true" signature="2460:2461" ph="..." />
+            <marker date="1491878963750" expanded="true" signature="2479:2480" ph="..." />
           </folding>
         </state>
       </provider>
