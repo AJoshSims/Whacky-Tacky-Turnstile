@@ -103,6 +103,9 @@ function init()
 
 	// Sets up event listener for keydown.
 	document.addEventListener("keydown", onDocumentKeyDown);
+
+	turnstile = new THREE.Object3D();
+	wall = new THREE.Object3D();
 }
 
 function draw()
@@ -114,6 +117,7 @@ function draw()
 	buildFirstCube();
 
 	buildWall("west");
+	buildWall("east");
 }
 
 function buildGround()
@@ -133,7 +137,6 @@ function buildGround()
 
 function buildTurnstile()
 {
-	turnstile = new THREE.Object3D();
 	var turnstilePole = buildTurnstilePole();
 	var turnstileDoor01 = buildTurnstileDoor();
 	var turnstileDoor02 = turnstileDoor01.clone();
@@ -205,27 +208,32 @@ function buildWall(side)
 {
 	var newCube;
 	var posY;
+
+	var side;
 	if (side === "west")
 	{
-		posY = turnstile.position.y - 80;
-		for (var i = 0; i < 4; ++i)
-		{
-			posY += 40 * i;
-			for (var j = 0; j < 5; ++j)
-			{
-				newCube = firstCube.clone();
+		side = -1;
+	}
+	else if (side === "east")
+	{
+		side = 1;
+	}
 
-				if (j % 2 == 0)
-				{
-					newCube.rotation.y = Math.PI / 2;
-					newCube.rotation.x = Math.PI / 2;
-				}
+	for (var i = 0; i < 4; ++i) {
+		posY = (turnstile.position.y - 150) + (40 * i);
+		for (var j = 0; j < 5; ++j) {
+			newCube = firstCube.clone();
 
-				newCube.position.x = 60 + 40*j;
-				newCube.position.y = posY;
+			newCube.position.x = side * (60 + 40 * j);
+			newCube.position.y = posY;
 
-				scene.add(newCube);
+			if (j % 2 == 0) {
+				wall.add(newCube);
+				newCube.rotation.y = Math.PI / 2;
+				// newCube.rotation.x = Math.PI / 2;
 			}
+
+			scene.add(newCube);
 		}
 	}
 }
