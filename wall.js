@@ -57,14 +57,34 @@ var camera;
  */
 var renderer;
 
+/**
+ * The ground which the turnstile and wall stand upon.
+ */
+var ground;
+
+/**
+ * The turnstile.
+ */
 var turnstile;
 
+/**
+ * The wall.
+ */
 var wall;
 
+/**
+ * The archetypal cube from which the cubes that compose the wall are cloned.
+ */
 var firstCube;
 
+/**
+ * The vertices of the archetypal cube.
+ */
 var firstCubeVertices;
 
+/**
+ * The faces of the archetypal cube.
+ */
 var firstCubeFaces;
 
 init();
@@ -73,6 +93,9 @@ draw();
 
 renderScene();
 
+/**
+ * Initializes the scene.
+ */
 function init()
 {
 	// Defines canvas dimensions.
@@ -108,20 +131,27 @@ function init()
 	wall = new THREE.Object3D();
 }
 
+/**
+ * Draws the scene.
+ */
 function draw()
 {
-	scene.add(buildGround());
+	buildGround();
+	scene.add(ground);
 
-	scene.add(buildTurnstile());
+	buildTurnstile();
+	scene.add(turnstile);
 
 	buildFirstCube();
 
 	buildWall("west");
 	buildWall("east");
-
 	scene.add(wall);
 }
 
+/**
+ * Builds the ground.
+ */
 function buildGround()
 {
 	var groundGeometry = new THREE.PlaneGeometry(600, 600);
@@ -130,13 +160,14 @@ function buildGround()
 		new THREE.MeshBasicMaterial(
 		{color: 0x00ff00, side: THREE.DoubleSide});
 
-	var groundMesh = new THREE.Mesh(groundGeometry, groundMaterial);
+	ground = new THREE.Mesh(groundGeometry, groundMaterial);
 
-	groundMesh.rotation.x = Math.PI / 2;
-
-	return groundMesh;
+	ground.rotation.x = Math.PI / 2;
 }
 
+/**
+ * Builds the turnstile.
+ */
 function buildTurnstile()
 {
 	var turnstilePole = buildTurnstilePole();
@@ -147,22 +178,29 @@ function buildTurnstile()
 	turnstile.add(turnstilePole, turnstileDoor01, turnstileDoor02);
 
 	turnstile.position.y = 90;
-
-	return turnstile;
 }
 
+/**
+ * Builds the turnstile pole.
+ *
+ * @return the mesh of the turnstile pole.
+ */
 function buildTurnstilePole()
 {
 	var turnstilePoleGeometry =
 		new THREE.CylinderGeometry(5, 5, 180);
 	var turnstilePoleMaterial =
 		new THREE.MeshBasicMaterial( {color: 0x000000} );
-	var turnstilePoleMesh =
+	var turnstilePole =
 		new THREE.Mesh( turnstilePoleGeometry, turnstilePoleMaterial );
 
-	return turnstilePoleMesh;
+	return turnstilePole;
 }
 
+/**
+ * Builds a turnstile door.
+ * @return the mesh of a turnstile door.
+ */
 function buildTurnstileDoor()
 {
 	var turnstileDoorGeometry = new THREE.Geometry();
@@ -200,12 +238,16 @@ function buildTurnstileDoor()
 		color: 0xcccccc,
 		side: THREE.DoubleSide});
 
-	var turnstileDoorMesh = new THREE.Mesh(
+	var turnstileDoor = new THREE.Mesh(
 		turnstileDoorGeometry, turnstileDoorMaterial);
 
-	return turnstileDoorMesh;
+	return turnstileDoor;
 }
 
+/**
+ *
+ * @param side
+ */
 function buildWall(side)
 {
 	var newCube;
@@ -221,23 +263,33 @@ function buildWall(side)
 		side = 1;
 	}
 
-	for (var i = 0; i < 4; ++i) {
-		posY = (turnstile.position.y - 150) + (40 * i);
-		for (var j = 0; j < 5; ++j) {
+	var m;
+	var oldPos = firstCube.geometry.position;
+	for (var i = 0; i < 4; ++i)
+	{
+		m = i % 2;
+		for (var j = 0; j < 5; ++j)
+		{
 			newCube = firstCube.clone();
 
 			newCube.position.x = side * (60 + 40 * j);
-			newCube.position.y = posY;
+			newCube.position.y = (turnstile.position.y - 150) + (40 * i);
 
-			if (j % 2 == 0) {
-				wall.add(newCube);
+			newCube.geometry.center();
+			if (j % 2 == m)
+			{
 				newCube.rotation.y = Math.PI / 2;
-				// newCube.rotation.x = Math.PI / 2;
+			}
+			else
+			{
+				newCube.rotation.x = Math.PI / 2;
 			}
 
 			wall.add(newCube);
 		}
 	}
+
+	wall.position.y += 45;
 }
 
 function buildFirstCube()
@@ -301,12 +353,16 @@ function initGeom()
 		new THREE.Face3(0, 4, 7),
 		new THREE.Face3(7, 3, 0)];
 
+	var colors = [0xa491ee, 0xee91e6, 0xee9d91, 0x948f61, 0x9cee91, 0x91eedf];
+
 	var color;
+	var colorIndex = 0;
 	for (var i = 0; i < firstCubeFaces.length; ++i)
 	{
 		if (i % 2 == 0)
 		{
-			color = Math.random() * 0xffffff;
+			color = colors[colorIndex];
+			++colorIndex;
 		}
 		firstCubeFaces[i].color.setHex(color);
 	}
