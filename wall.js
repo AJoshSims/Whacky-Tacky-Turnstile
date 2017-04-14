@@ -23,6 +23,21 @@
  */
 
 /**
+ * X coordinate of the center of the scene.
+ */
+var sceneCenterX = 0;
+
+/**
+ * Y coordinate of the center of the scene.
+ */
+var sceneCenterY = 0;
+
+/**
+ * Z coordinate of the center of the scene.
+ */
+var sceneCenterZ = 0;
+
+/**
  * The width of the canvas.
  */
 var canvasWidth;
@@ -87,10 +102,13 @@ var firstCubeVertices;
  */
 var firstCubeFaces;
 
+// Initializes the scene.
 init();
 
+// Draws the scene.
 draw();
 
+// Renders the scene.
 renderScene();
 
 /**
@@ -111,10 +129,12 @@ function init()
 		-viewLength/2,
 		-1000, 1000);
 
-	camera.position.x += 1;
-	camera.position.y += 1;
-	camera.position.z += 1;
-	camera.lookAt(new THREE.Vector3(0, 0, 0));
+	camera.position.x = 1;
+	camera.position.y = 1;
+	camera.position.z = 1;
+	camera.lookAt(
+		new THREE.Vector3(
+		sceneCenterX, sceneCenterY, sceneCenterZ));
 
 	// Creates the scene.
 	scene = new THREE.Scene();
@@ -199,40 +219,53 @@ function buildTurnstilePole()
 
 /**
  * Builds a turnstile door.
+ *
  * @return the mesh of a turnstile door.
  */
 function buildTurnstileDoor()
 {
 	var turnstileDoorGeometry = new THREE.Geometry();
+
+	var x = 40;
+	var y = 80;
+	var z = 5;
 	turnstileDoorGeometry.vertices.push(
-		new THREE.Vector3(-40, 80, -5),
-		new THREE.Vector3(40, 80, -5),
-		new THREE.Vector3(40, -80, -5),
-		new THREE.Vector3(-40, -80, -5),
+		new THREE.Vector3(-x, y, -z),
+		new THREE.Vector3(x, y, -z),
+		new THREE.Vector3(x, -y, -z),
+		new THREE.Vector3(-x, -y, -z),
 
-		new THREE.Vector3(-40, 80, 5),
-		new THREE.Vector3(40, 80, 5),
-		new THREE.Vector3(40, -80, 5),
-		new THREE.Vector3(-40, -80, 5));
+		new THREE.Vector3(-x, y, z),
+		new THREE.Vector3(x, y, z),
+		new THREE.Vector3(x, -y, z),
+		new THREE.Vector3(-x, -y, z));
 
+	var vertex00 = 0;
+	var vertex01 = 1;
+	var vertex02 = 2;
+	var vertex03 = 3;
+	var vertex04 = 4;
+	var vertex05 = 5;
+	var vertex06 = 6;
+	var vertex07 = 7;
 	turnstileDoorGeometry.faces.push(
-		new THREE.Face3(0, 1, 2),
-		new THREE.Face3(2, 3, 0),
+		new THREE.Face3(vertex00, vertex01, vertex02),
+		new THREE.Face3(vertex02, vertex03, vertex00),
 
-		new THREE.Face3(4, 5, 6),
-		new THREE.Face3(6, 7, 4),
+		new THREE.Face3(vertex04, vertex05, vertex06),
+		new THREE.Face3(vertex06, vertex07, vertex04),
 
-		new THREE.Face3(0, 1, 5),
-		new THREE.Face3(5, 4, 0),
+		new THREE.Face3(vertex00, vertex01, vertex05),
+		new THREE.Face3(vertex05, vertex04, vertex00),
 
-		new THREE.Face3(5, 1, 2),
-		new THREE.Face3(2, 6, 5),
+		new THREE.Face3(vertex05, vertex01, vertex02),
+		new THREE.Face3(vertex02, vertex06, vertex05),
 
-		new THREE.Face3(7, 6, 2),
-		new THREE.Face3(2, 3, 7),
+		new THREE.Face3(vertex07, vertex06, vertex02),
+		new THREE.Face3(vertex02, vertex03, vertex07),
 
-		new THREE.Face3(0, 4, 7),
-		new THREE.Face3(7, 3, 0));
+		new THREE.Face3(vertex00, vertex04, vertex07),
+		new THREE.Face3(vertex07, vertex03, vertex00));
 
 	var turnstileDoorMaterial = new THREE.MeshBasicMaterial({
 		color: 0xcccccc,
@@ -245,8 +278,9 @@ function buildTurnstileDoor()
 }
 
 /**
+ * Builds a portion of the wall.
  *
- * @param side
+ * @param side - the portion of the wall to be built.
  */
 function buildWall(side)
 {
@@ -263,20 +297,25 @@ function buildWall(side)
 		side = 1;
 	}
 
-	var m;
-	var oldPos = firstCube.geometry.position;
-	for (var i = 0; i < 4; ++i)
+	var alternator;
+	var cubeDimensions = 40;
+	var turnstileHeightAdjustment = 150;
+	for (var indexColumn = 0; indexColumn < 4; ++indexColumn)
 	{
-		m = i % 2;
-		for (var j = 0; j < 5; ++j)
+		alternator = indexColumn % 2;
+		for (var indexRow = 0; indexRow < 5; ++indexRow)
 		{
+			
 			newCube = firstCube.clone();
 
-			newCube.position.x = side * (60 + 40 * j);
-			newCube.position.y = (turnstile.position.y - 150) + (40 * i);
+			newCube.position.x =
+				side * ((cubeDimensions * 1.5) + cubeDimensions * indexRow);
+			newCube.position.y = 
+				(turnstile.position.y - turnstileHeightAdjustment) 
+				+ (cubeDimensions * indexColumn);
 
 			newCube.geometry.center();
-			if (j % 2 == m)
+			if (indexRow % 2 == alternator)
 			{
 				newCube.rotation.y = Math.PI / 2;
 			}
@@ -292,6 +331,10 @@ function buildWall(side)
 	wall.position.y += 45;
 }
 
+/**
+ * Builds the archetypal cube from which the cubes that compose the wall are
+ * cloned.
+ */
 function buildFirstCube()
 {
 	initGeom();
@@ -307,6 +350,10 @@ function buildFirstCube()
 	firstCube = new THREE.Mesh(firstCubeGeometry, firstCubeMaterial);
 }
 
+/**
+ * Builds the geometry of the archetypal cube from which the cubes that
+ * compose the wall are cloned.
+ */
 function initGeom()
 {
 	var originX = turnstile.position.x;
@@ -334,24 +381,32 @@ function initGeom()
 		new THREE.Vector3(
 		originX - offset, originY - offset, originZ + offset)];
 
+	var vertex00 = 0;
+	var vertex01 = 1;
+	var vertex02 = 2;
+	var vertex03 = 3;
+	var vertex04 = 4;
+	var vertex05 = 5;
+	var vertex06 = 6;
+	var vertex07 = 7;
 	firstCubeFaces =
-		[new THREE.Face3(0, 1, 2),
-		new THREE.Face3(2, 3, 0),
+		[new THREE.Face3(vertex00, vertex01, vertex02),
+		new THREE.Face3(vertex02, vertex03, vertex00),
 
-		new THREE.Face3(4, 5, 6),
-		new THREE.Face3(6, 7, 4),
+		new THREE.Face3(vertex04, vertex05, vertex06),
+		new THREE.Face3(vertex06, vertex07, vertex04),
 
-		new THREE.Face3(0, 1, 5),
-		new THREE.Face3(5, 4, 0),
+		new THREE.Face3(vertex00, vertex01, vertex05),
+		new THREE.Face3(vertex05, vertex04, vertex00),
 
-		new THREE.Face3(5, 1, 2),
-		new THREE.Face3(2, 6, 5),
+		new THREE.Face3(vertex05, vertex01, vertex02),
+		new THREE.Face3(vertex02, vertex06, vertex05),
 
-		new THREE.Face3(7, 6, 2),
-		new THREE.Face3(2, 3, 7),
+		new THREE.Face3(vertex07, vertex06, vertex02),
+		new THREE.Face3(vertex02, vertex03, vertex07),
 
-		new THREE.Face3(0, 4, 7),
-		new THREE.Face3(7, 3, 0)];
+		new THREE.Face3(vertex00, vertex04, vertex07),
+		new THREE.Face3(vertex07, vertex03, vertex00)];
 
 	var colors = [0xa491ee, 0xee91e6, 0xee9d91, 0x948f61, 0x9cee91, 0x91eedf];
 
@@ -368,11 +423,19 @@ function initGeom()
 	}
 }
 
+/**
+ * Renders the scene.
+ */
 function renderScene()
 {
 	renderer.render(scene, camera);
 }
 
+/**
+ * Handles the interactions for the  different key presses.
+ *
+ * @param event - the key press event.
+ */
 function onDocumentKeyDown(event)
 {
 	var keyP = 80;
@@ -401,10 +464,12 @@ function onDocumentKeyDown(event)
 				-viewLength/2,
 				-1000, 1000);
 
-			camera.position.x += 1;
-			camera.position.y += 1;
-			camera.position.z += 1;
-			camera.lookAt(new THREE.Vector3(0, 0, 0));
+			camera.position.x = 1;
+			camera.position.y = 1;
+			camera.position.z = 1;
+			camera.lookAt(
+				new THREE.Vector3(
+				sceneCenterX, sceneCenterY, sceneCenterZ));
 			break;
 		case keyOne:
 			camera = new THREE.OrthographicCamera(
@@ -414,10 +479,12 @@ function onDocumentKeyDown(event)
 				-viewLength/2,
 				-1000, 1000);
 
-			camera.position.x += 1;
-			camera.position.y += 1;
-			camera.position.z += -1;
-			camera.lookAt(new THREE.Vector3(0, 0, 0));
+			camera.position.x = 1;
+			camera.position.y = 1;
+			camera.position.z = -1;
+			camera.lookAt(
+				new THREE.Vector3(
+				sceneCenterX, sceneCenterY, sceneCenterZ));
 			break;
 		case keyTwo:
 			camera = new THREE.OrthographicCamera(
@@ -427,10 +494,12 @@ function onDocumentKeyDown(event)
 				-viewLength/2,
 				-1000, 1000);
 
-			camera.position.x += 0;
-			camera.position.y += 0;
-			camera.position.z += 1;
-			camera.lookAt(new THREE.Vector3(0, 0, 0));
+			camera.position.x = 0;
+			camera.position.y = 0;
+			camera.position.z = 1;
+			camera.lookAt(
+				new THREE.Vector3(
+				sceneCenterX, sceneCenterY, sceneCenterZ));
 			break;
 	}
 
